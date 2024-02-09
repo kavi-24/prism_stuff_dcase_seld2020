@@ -18,13 +18,16 @@ def get_params(argv='1'):
         # feat_label_dir='/scratch/asignal/sharath/DCASE2020_SELD_dataset/feat_label/',  # Directory to dump extracted features and labels
 
         # INPUT PATH
-        dataset_dir='DCASE2020_SELD_dataset/',  # Base folder containing the foa/mic and metadata folders
+        # Base folder containing the foa/mic and metadata folders
+        dataset_dir='DCASE2020_SELD_dataset/',
 
         # OUTPUT PATH
-        feat_label_dir='DCASE2020_SELD_dataset/feat_label/',  # Directory to dump extracted features and labels
+        # Directory to dump extracted features and labels
+        feat_label_dir='DCASE2020_SELD_dataset/feat_label/',
 
         model_dir='models/',   # Dumps the trained models and training curves in this folder
-        dcase_output=True,     # If true, dumps the results recording-wise in 'dcase_dir' path.
+        # If true, dumps the results recording-wise in 'dcase_dir' path.
+        dcase_output=True,
                                # Set this true after you have finalized your model, save the output, and submit
         dcase_dir='results/',  # Dumps the recording-wise network output in this folder
 
@@ -33,7 +36,7 @@ def get_params(argv='1'):
         # dataset='foa',       # 'foa' - ambisonic or 'mic' - microphone signals
         dataset='mic',       # 'foa' - ambisonic or 'mic' - microphone signals
 
-        #FEATURE PARAMS
+        # FEATURE PARAMS
         fs=24000,
         hop_len_s=0.02,
         label_hop_len_s=0.1,
@@ -45,41 +48,49 @@ def get_params(argv='1'):
         batch_size=256,              # Batch size
         dropout_rate=0,             # Dropout rate, constant for all layers
         nb_cnn2d_filt=64,           # Number of CNN nodes, constant for each layer
-        f_pool_size=[4, 4, 2],      # CNN frequency pooling, length of list = number of CNN layers, list value = pooling per layer
+        # CNN frequency pooling, length of list = number of CNN layers, list value = pooling per layer
+        f_pool_size=[4, 4, 2],
 
-        rnn_size=[128, 128],        # RNN contents, length of list = number of layers, list value = number of nodes
-        fnn_size=[128],             # FNN contents, length of list = number of layers, list value = number of nodes
-        loss_weights=[1., 1000.],     # [sed, doa] weight for scaling the DNN outputs
+        # RNN contents, length of list = number of layers, list value = number of nodes
+        rnn_size=[128, 128],
+        # FNN contents, length of list = number of layers, list value = number of nodes
+        fnn_size=[128],
+        # [sed, doa] weight for scaling the DNN outputs
+        loss_weights=[1., 1000.],
         nb_epochs=50,               # Train for maximum epochs
         epochs_per_fit=5,           # Number of epochs per fit
-        doa_objective='masked_mse',     # supports: mse, masked_mse. mse- original seld approach; masked_mse - dcase 2020 approach
-        
-        #METRIC PARAMETERS
+        # supports: mse, masked_mse. mse- original seld approach; masked_mse - dcase 2020 approach
+        doa_objective='masked_mse',
+
+        # METRIC PARAMETERS
         lad_doa_thresh=20
-       
+
     )
-    feature_label_resolution = int(params['label_hop_len_s'] // params['hop_len_s'])
-    params['feature_sequence_length'] = params['label_sequence_length'] * feature_label_resolution
-    params['t_pool_size'] = [feature_label_resolution, 1, 1]     # CNN time pooling
-    params['patience'] = int(params['nb_epochs'])     # Stop training if patience is reached
+    feature_label_resolution = int(
+        params['label_hop_len_s'] // params['hop_len_s'])
+    params['feature_sequence_length'] = params['label_sequence_length'] * \
+        feature_label_resolution
+    params['t_pool_size'] = [
+        feature_label_resolution, 1, 1]     # CNN time pooling
+    # Stop training if patience is reached
+    params['patience'] = int(params['nb_epochs'])
 
     params['unique_classes'] = {
-            'alarm': 0,
-            'baby': 1,
-            'crash': 2,
-            'dog': 3,
-            'engine': 4,
-            'female_scream': 5,
-            'female_speech': 6,
-            'fire': 7,
-            'footsteps': 8,
-            'knock': 9,
-            'male_scream': 10,
-            'male_speech': 11,
-            'phone': 12,
-            'piano': 13
-        }
-
+        'alarm': 0,
+        'baby': 1,
+        'crash': 2,
+        'dog': 3,
+        'engine': 4,
+        'female_scream': 5,
+        'female_speech': 6,
+        'fire': 7,
+        'footsteps': 8,
+        'knock': 9,
+        'male_scream': 10,
+        'male_speech': 11,
+        'phone': 12,
+        'piano': 13
+    }
 
     # ########### User defined parameters ##############
     if argv == '1':

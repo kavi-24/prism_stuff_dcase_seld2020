@@ -15,7 +15,6 @@ keras.backend.set_image_data_format('channels_first')
 # keras.backend.set_image_data_format("channels_last")
 
 
-
 def get_model(data_in, data_out, dropout_rate, nb_cnn2d_filt, f_pool_size, t_pool_size,
               rnn_size, fnn_size, weights, doa_objective):
     # model definition

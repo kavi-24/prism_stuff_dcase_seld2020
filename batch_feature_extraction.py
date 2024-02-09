@@ -5,7 +5,7 @@ import parameter
 
 process_str = 'dev'
 # process_str = 'dev, eval'   # 'dev' or 'eval' will extract features for the respective set accordingly
-                            #  'dev, eval' will extract features of both sets together
+#  'dev, eval' will extract features of both sets together
 
 params = parameter.get_params()
 
@@ -29,4 +29,3 @@ if 'eval' in process_str:
     # Extract features and normalize them
     eval_feat_cls.extract_all_feature()
     eval_feat_cls.preprocess_features()
-
