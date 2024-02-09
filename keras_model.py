@@ -2,6 +2,7 @@
 # The SELDnet architecture
 #
 
+# import tensorflow as tf
 import keras
 
 from keras.layers import Bidirectional, Conv2D, MaxPooling2D, Input, Concatenate
@@ -11,8 +12,8 @@ from keras.models import Model
 from keras.models import load_model
 
 from keras.optimizers import Adam
-keras.backend.set_image_data_format('channels_first')
-# keras.backend.set_image_data_format("channels_last")
+# keras.backend.set_image_data_format('channels_first')
+keras.backend.set_image_data_format("channels_last")
 
 
 def get_model(data_in, data_out, dropout_rate, nb_cnn2d_filt, f_pool_size, t_pool_size,
@@ -41,8 +42,9 @@ def get_model(data_in, data_out, dropout_rate, nb_cnn2d_filt, f_pool_size, t_poo
     # RNN
     # spec_rnn = Reshape((data_out[0][-2], -1))(spec_cnn) # error: total size of new array must be unchanged, input_shape =  [9, 2, 64], output_shape = [60, -1]
     # spec_rnn = Reshape((9, 2, 64))(spec_cnn) # error: total size of new array must be unchanged, input_shape =  [9, 2, 64], output_shape = [60, -1]
-    spec_rnn = Reshape(target_shape=(data_out[0][-2], -1))(spec_cnn)
+    spec_rnn = Reshape(target_shape=(data_out[0][-2], -1, ))(spec_cnn)
     print(spec_rnn)
+    # tf.compat.v1
     for nb_rnn_filt in rnn_size:
         spec_rnn = Bidirectional(
             GRU(nb_rnn_filt, activation='tanh', dropout=dropout_rate, recurrent_dropout=dropout_rate,
